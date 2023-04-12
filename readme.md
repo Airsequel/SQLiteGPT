@@ -1,6 +1,6 @@
 # SQLiteGPT
 
-SQL function for SQLite to directly query OpenAI's GPT API.
+SQL function for SQLite to directly query OpenAI's ChatGPT.
 
 
 ## CLI Usage
@@ -46,7 +46,10 @@ sqliteGpt(
     it should be implemented as a
     [loadable extension](https://www.sqlite.org/loadext.html).
 
+---
 
 **If you like SQLiteGPT, please star the project
 and I will re-implement it as a proper loadable extension in Rust with
 [sqlite-loadable-rs](https://github.com/asg017/sqlite-loadable-rs).**
+
+---

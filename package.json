@@ -2,6 +2,22 @@
   "name": "sqlitegpt",
   "version": "0.1.0",
   "description": "SQL functions for SQLite to directly query OpenAI's GPT API",
+  "keywords": [
+    "SQLite",
+    "GPT",
+    "ChatGPT",
+    "OpenAI"
+  ],
+  "homepage": "https://github.com/Airsequel/SQLiteGPT",
+  "bugs": {
+    "url": "https://github.com/Airsequel/SQLiteGPT/issues"
+  },
+  "license": "ISC",
+  "author": "Adrian Sieber",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Airsequel/SQLiteGPT"
+  },
   "main": "index.js",
   "bin": "cli.js",
   "module": "es2022",
