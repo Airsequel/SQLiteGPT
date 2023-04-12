@@ -1,0 +1,22 @@
+{
+  "name": "sqlitegpt",
+  "version": "0.1.0",
+  "description": "SQL functions for SQLite to directly query OpenAI's GPT API",
+  "main": "index.js",
+  "bin": "cli.js",
+  "module": "es2022",
+  "target": "es2022",
+  "scripts": {
+    "build": "npx tsc index.ts cli.ts",
+    "test": "ts-node tests.ts",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "better-sqlite3": "^8.3.0",
+    "sync-request": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.4",
+    "ts-node": "^10.9.1"
+  }
+}
