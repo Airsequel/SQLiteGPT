@@ -1,6 +1,6 @@
 {
   "name": "sqlitegpt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SQL functions for SQLite to directly query OpenAI's GPT API",
   "keywords": [
     "SQLite",
