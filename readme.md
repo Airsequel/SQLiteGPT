@@ -3,7 +3,16 @@
 SQL function for SQLite to directly query OpenAI's ChatGPT.
 
 
-## CLI Usage
+## CLI
+
+### Installation
+
+```sh
+npm install --global sqlitegpt
+```
+
+
+### Usage
 
 ```sh
 export OPENAI_API_KEY="sk-XXX"
@@ -45,6 +54,7 @@ sqliteGpt(
     To make it work in every SQLite environment,
     it should be implemented as a
     [loadable extension](https://www.sqlite.org/loadext.html).
+
 
 ---
 
