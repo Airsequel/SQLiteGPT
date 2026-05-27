@@ -1,65 +1,54 @@
 # SQLiteGPT
 
-SQL function for SQLite to directly query OpenAI's ChatGPT.
+SQLite [loadable extension](https://www.sqlite.org/loadext.html) that exposes
+a `gpt()` SQL function for querying OpenAI's chat completions API directly
+from SQL.
+
+Implemented in Rust with [rusqlite](https://github.com/rusqlite/rusqlite).
 
 
-## CLI
-
-### Installation
+## Build
 
 ```sh
-npm install --global sqlitegpt
+make build
 ```
 
+This produces `target/release/libsqlitegpt.dylib` on macOS,
+`libsqlitegpt.so` on Linux, or `sqlitegpt.dll` on Windows.
 
-### Usage
+
+## Usage
 
 ```sh
 export OPENAI_API_KEY="sk-XXX"
-sqlitegpt example.sqlite "SELECT gpt('Name of tallest mountain')"
+sqlite3 example.sqlite
 ```
 
+```sql
+.load ./target/release/libsqlitegpt
+SELECT gpt('Name of the tallest mountain, no explanation');
 
-## Library Usage
-
-```ts
-import { sqliteGpt } from "sqlitegpt"
-
-sqliteGpt(
-  ":memory:",
-  "SELECT gpt('Name of tallest mountain') as tallest_mountain"
-)
-
-sqliteGpt(
-  "example.sqlite",
-  `
-    SELECT
-      country,
-      gpt('capital of ' || country || ', no explanation') as capital
-    FROM users
-  `
-)
+SELECT
+  country,
+  gpt('capital of ' || country || ', no explanation') AS capital
+FROM users;
 ```
 
-
-## Known Issues
-
-- This implementation currently uses `sync-request`
-    which forces HTTP requests to be synchronous.
-    You should not use this in production!
-    However, it's currently the only way to make it work with `better-sqlite3`.
-- It's only implemented as an
-    [application-defined SQL function](https://sqlite.org/appfunc.html)
-    and can therefore only be used in JavaScript projects.
-    To make it work in every SQLite environment,
-    it should be implemented as a
-    [loadable extension](https://www.sqlite.org/loadext.html).
+The extension's entry point is derived from the file name, so plain
+`.load ./target/release/libsqlitegpt` resolves to `sqlite3_sqlitegpt_init`.
 
 
----
+## Configuration
 
-**If you like SQLiteGPT, please star the project
-and I will re-implement it as a proper loadable extension in Rust with
-[sqlite-loadable-rs](https://github.com/asg017/sqlite-loadable-rs).**
+| Environment variable | Default          | Purpose                          |
+| -------------------- | ---------------- | -------------------------------- |
+| `OPENAI_API_KEY`     | *(required)*     | OpenAI API key                   |
+| `OPENAI_MODEL`       | `gpt-5.4-mini`   | Chat completions model           |
 
----
+
+## Notes
+
+- `gpt()` is synchronous: each row blocks on the HTTP round-trip.
+  For non-trivial result sets this is slow and consumes API credits per row.
+- The function is **not** marked `SQLITE_DETERMINISTIC` because the model's
+  output is not stable across calls.

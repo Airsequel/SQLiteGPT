@@ -1,0 +1,20 @@
+[package]
+name = "sqlitegpt"
+version = "0.2.0"
+edition = "2021"
+description = "SQLite loadable extension exposing a gpt() SQL function backed by OpenAI"
+license = "ISC"
+repository = "https://github.com/Airsequel/SQLiteGPT"
+homepage = "https://github.com/Airsequel/SQLiteGPT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+rusqlite = { version = "0.40", features = ["loadable_extension", "functions"] }
+serde_json = "1"
+ureq = { version = "3", features = ["json"] }
+
+[profile.release]
+lto = true
+strip = true
