@@ -1,26 +1,37 @@
-.PHONY: help build debug clean test demo
+.PHONY: help
+help: makefile
+	@tail -n +4 makefile | grep ".PHONY"
 
-help:
-	@echo "Targets:"
-	@echo "  build  - Release build of libsqlitegpt"
-	@echo "  debug  - Debug build of libsqlitegpt"
-	@echo "  test   - cargo test"
-	@echo "  demo   - Load extension and run a sample query (needs OPENAI_API_KEY)"
-	@echo "  clean  - Remove target/"
 
+.PHONY: format
+format:
+	cargo clippy --fix --allow-dirty
+	cargo fmt
+	# nix fmt  # TODO: Reactivate when it's faster
+
+
+.PHONY: build
 build:
 	cargo build --release
 
+
+.PHONY: debug
 debug:
 	cargo build
 
-test:
-	cargo test --release
 
+.PHONY: test
+test:
+	cargo test -p sqlitegpt-core --release
+
+
+.PHONY: demo
 demo: build
 	sqlite3 :memory: \
 	  ".load $(CURDIR)/target/release/libsqlitegpt" \
 	  "SELECT gpt('Name of the tallest mountain, no explanation');"
 
+
+.PHONY: clean
 clean:
 	cargo clean

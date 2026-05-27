@@ -7,13 +7,15 @@ license = "ISC"
 repository = "https://github.com/Airsequel/SQLiteGPT"
 homepage = "https://github.com/Airsequel/SQLiteGPT"
 
+[workspace]
+members = [".", "core"]
+
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
 rusqlite = { version = "0.40", features = ["loadable_extension", "functions"] }
-serde_json = "1"
-ureq = { version = "3", features = ["json"] }
+sqlitegpt-core = { path = "core" }
 
 [profile.release]
 lto = true
